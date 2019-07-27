@@ -1,0 +1,21 @@
+[package]
+name = "brokkr"
+description = "Virtual Machine / Bytecode Interpreter for set-theoretic languages."
+homepage = "https://knutsen.co"
+repository    = "https://github.com/Demonstrandum/brokkr"
+documentation = "https://github.com/Demonstrandum/brokkr"
+keywords = ["set-theory", "assembler", "bytecode", "interpreter", "virtual-machine"]
+license = "GPL-3.0"
+license-file = "LICENSE.md"
+readme = "README.md"
+version = "0.1.0"
+authors = ["Demonstrandum <moi@knutsen.co>"]
+edition = "2018"
+
+[lib]
+name = "brokkr"
+path = "src/lib.rs"
+
+[dependencies]
+lazy_static = "1.3.0"
+

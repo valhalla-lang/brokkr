@@ -1,0 +1,87 @@
+# -   :byte: n
+#     :name: s
+#     :operands: n
+#     :operand_desc: ['']
+#     :desc: >-
+#        ...
+
+-   :byte: 0
+    :name: HALT
+    :operands: 1
+    :operand_desc: ['Exit Code (Integer)']
+    :desc: >-
+        Stops execution.
+
+-   :byte: 1
+    :name: PUSH_CONST
+    :operands: 1
+    :operand_desc: ['Unsigned index to constants table']
+    :desc: >-
+        Pushes a constant onto the stack.
+        Constant is specified by a given index to the
+        constant-table, containing all local constant.
+
+-   :byte: 2
+    :name: PUSH_LOCAL
+    :operands: 1
+    :operand_desc: ['Local variable index (Unsigned)']
+    :desc: >-
+       Pushes a local variable (e.g. a function param)
+       onto the stack. The local variable is identified by
+       an index operand, to where it is in the current symbol
+       table.
+
+-   :byte: 3
+    :name: PUSH_SUPER
+    :operands: 1
+    :operand_desc: ['Name of super-scoped variable (String)']
+    :desc: >-
+       When a variable is out of the local scope, load it
+       onto the stack by
+       searching up the super-scope by its name, (much slower
+       than `PUSH_LOCAL`).
+
+-   :byte: 4
+    :name: POP
+    :operands: 0
+    :desc: >-
+       Pops the top element off of the stack.
+
+-   :byte: 5
+    :name: STORE_LOCAL
+    :operands: 1
+    :operand_desc: ['Index to store local variable in table (Unsigned)']
+    :desc: >-
+       Pops the top value and stores it in the local symbol table
+       at a given index.
+
+-   :byte: 6
+    :name: STORE_SUPER
+    :operands: 1
+    :operand_desc: ['Name of super-scoped variable (String)']
+    :desc: >-
+       When a variable is out of the local scope, pop it
+       off of the stack to store it in the super-scope
+       searching up the frames for its name, (much slower
+       than `STORE_LOCAL`).
+
+
+-   :byte: 6
+    :name: DUP
+    :operands: 0
+    :desc: >-
+        Duplicates what was on the top of the stack,
+        by popping it off and then pushing two copies.
+
+-   :byte: 7
+    :name: DUP_N
+    :operands: 1
+    :operand_desc: ['The number of duplicates']
+    :desc: >-
+        Duplicates the top value on the stack N times.
+
+-   :byte: 8
+    :name: SWAP
+    :operands: 0
+    :desc: >-
+        Swaps the position of the top two stack elements.
