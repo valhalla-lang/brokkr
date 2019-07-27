@@ -1,4 +1,13 @@
 # Brokkr Bytecode Specification
+
+Sizes are as follows:
+
+| Type     | Size                     |
+|----------|--------------------------|
+| Operator | 1 Byte  (8  Bits, `u8`)  |
+| Operand  | 2 Bytes (16 Bits, `u16`) |
+
+## Bytecodes
 | Byte | Name | Operands | Description |
 |:---:|:---:|---|---|
 | `00000000` | `HALT` | 1 — Exit Code (Integer) | Stops execution. |

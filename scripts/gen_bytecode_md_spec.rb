@@ -28,5 +28,18 @@ end
 LINE = "\n|:---:|:---:|---|---|\n"
 TABLE = HEAD + LINE + rows.join("\n")
 
+KEY = <<EOF
+
+Sizes are as follows:
+
+| Type     | Size                     |
+|----------|--------------------------|
+| Operator | 1 Byte  (8  Bits, `u8`)  |
+| Operand  | 2 Bytes (16 Bits, `u16`) |
+
+EOF
+
 puts "# Brokkr Bytecode Specification"
+puts KEY
+puts "## Bytecodes"
 puts TABLE
