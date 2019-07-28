@@ -85,3 +85,138 @@
     :operands: 0
     :desc: >-
         Swaps the position of the top two stack elements.
+
+
+-   :byte: 40
+    :name: N_ADD
+    :operands: 0
+    :desc: >-
+       Addition between two pointer-sized unsigned integers.
+       Pops top two elements from the stacks and adds
+       them together, pushing the result.
+
+-   :byte: 41
+    :name: I_ADD
+    :operands: 0
+    :desc: >-
+       Addition between two pointer-sized signed integers.
+       Pops top two elements from the stacks and adds
+       them together, pushing the result.
+
+-   :byte: 42
+    :name: R_ADD
+    :operands: 0
+    :desc: >-
+       Addition between two 64-bit floating-point numbers.
+       Pops top two elements from the stacks and adds
+       them together, pushing the result.
+
+-   :byte: 43
+    :name: U_ADD
+    :operands: 0
+    :desc: >-
+       Addition between two values of unknown types, found out at runtime.
+       Pops top two elements from the stacks and adds
+       them together, pushing the result.
+
+-   :byte: 44
+    :name: CONCAT
+    :operands: 0
+    :desc: >-
+       Works like add, but concatenates strings.
+
+-   :byte: 45
+    :name: N_SUB
+    :operands: 0
+    :desc: >-
+       Subtraction between two pointer-sized unsigned integers.
+       Pops top two elements from the stacks and subtracts
+       them together, pushing the result.
+
+-   :byte: 46
+    :name: I_SUB
+    :operands: 0
+    :desc: >-
+       Subtraction between two pointer-sized signed integers.
+       Pops top two elements from the stacks and subtracts
+       them together, pushing the result.
+
+-   :byte: 47
+    :name: R_SUB
+    :operands: 0
+    :desc: >-
+       Subtraction between two 64-bit floating-point numbers.
+       Pops top two elements from the stacks and subtracts
+       them together, pushing the result.
+
+-   :byte: 48
+    :name: U_SUB
+    :operands: 0
+    :desc: >-
+       Subtraction between two values of unknown types, found out at runtime.
+       Pops top two elements from the stacks and subtracts
+       one from the other, pushing the result.
+
+-   :byte: 49
+    :name: N_MUL
+    :operands: 0
+    :desc: >-
+       Multiplication between two pointer-sized unsigned integers.
+       Pops top two elements from the stacks and multiplies
+       them together, pushing the result.
+
+-   :byte: 50
+    :name: I_MUL
+    :operands: 0
+    :desc: >-
+       Multiplication between two pointer-sized signed integers.
+       Pops top two elements from the stacks and multiplies
+       them together, pushing the result.
+
+-   :byte: 51
+    :name: R_MUL
+    :operands: 0
+    :desc: >-
+       Multiplication between two 64-bit floating-point numbers.
+       Pops top two elements from the stacks and multiplies
+       them together, pushing the result.
+
+-   :byte: 52
+    :name: U_MUL
+    :operands: 0
+    :desc: >-
+       Multiplication between two values of unknown types, found out at runtime.
+       Pops top two elements from the stacks and multiplies
+       them together, pushing the result.
+
+-   :byte: 53
+    :name: N_DIV
+    :operands: 0
+    :desc: >-
+       Division between two pointer-sized unsigned integers.
+       Pops top two elements from the stacks and finds their
+       quotient, pushing the result.
+
+-   :byte: 54
+    :name: I_DIV
+    :operands: 0
+    :desc: >-
+       Division between two pointer-sized signed integers.
+       Pops top two elements from the stacks and finds their
+       quotient, pushing the result.
+
+-   :byte: 55
+    :name: R_DIV
+    :operands: 0
+    :desc: >-
+       Division between two 64-bit floating-point numbers.
+       Pops top two elements from the stacks and finds their
+       quotient, pushing the result.
+
+-   :byte: 56
+    :name: U_DIV
+    :operands: 0
+    :desc: >-
+       Division between two values of unknown types, found out at runtime.
+       Pops top two elements from the stacks and finds their
+       quotient, pushing the result.

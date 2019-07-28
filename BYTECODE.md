@@ -20,3 +20,20 @@ Sizes are as follows:
 | `00000110` | `DUP` |  | Duplicates what was on the top of the stack, by popping it off and then pushing two copies. |
 | `00000111` | `DUP_N` | 1 — The number of duplicates | Duplicates the top value on the stack N times. |
 | `00001000` | `SWAP` |  | Swaps the position of the top two stack elements. |
+| `00101000` | `N_ADD` |  | Addition between two pointer-sized unsigned integers. Pops top two elements from the stacks and adds them together, pushing the result. |
+| `00101001` | `I_ADD` |  | Addition between two pointer-sized signed integers. Pops top two elements from the stacks and adds them together, pushing the result. |
+| `00101010` | `R_ADD` |  | Addition between two 64-bit floating-point numbers. Pops top two elements from the stacks and adds them together, pushing the result. |
+| `00101011` | `U_ADD` |  | Addition between two values of unknown types, found out at runtime. Pops top two elements from the stacks and adds them together, pushing the result. |
+| `00101100` | `CONCAT` |  | Works like add, but concatenates strings. |
+| `00101101` | `N_SUB` |  | Subtraction between two pointer-sized unsigned integers. Pops top two elements from the stacks and subtracts them together, pushing the result. |
+| `00101110` | `I_SUB` |  | Subtraction between two pointer-sized signed integers. Pops top two elements from the stacks and subtracts them together, pushing the result. |
+| `00101111` | `R_SUB` |  | Subtraction between two 64-bit floating-point numbers. Pops top two elements from the stacks and subtracts them together, pushing the result. |
+| `00110000` | `U_SUB` |  | Subtraction between two values of unknown types, found out at runtime. Pops top two elements from the stacks and subtracts one from the other, pushing the result. |
+| `00110001` | `N_MUL` |  | Multiplication between two pointer-sized unsigned integers. Pops top two elements from the stacks and multiplies them together, pushing the result. |
+| `00110010` | `I_MUL` |  | Multiplication between two pointer-sized signed integers. Pops top two elements from the stacks and multiplies them together, pushing the result. |
+| `00110011` | `R_MUL` |  | Multiplication between two 64-bit floating-point numbers. Pops top two elements from the stacks and multiplies them together, pushing the result. |
+| `00110100` | `U_MUL` |  | Multiplication between two values of unknown types, found out at runtime. Pops top two elements from the stacks and multiplies them together, pushing the result. |
+| `00110101` | `N_DIV` |  | Division between two pointer-sized unsigned integers. Pops top two elements from the stacks and finds their quotient, pushing the result. |
+| `00110110` | `I_DIV` |  | Division between two pointer-sized signed integers. Pops top two elements from the stacks and finds their quotient, pushing the result. |
+| `00110111` | `R_DIV` |  | Division between two 64-bit floating-point numbers. Pops top two elements from the stacks and finds their quotient, pushing the result. |
+| `00111000` | `U_DIV` |  | Division between two values of unknown types, found out at runtime. Pops top two elements from the stacks and finds their quotient, pushing the result. |
