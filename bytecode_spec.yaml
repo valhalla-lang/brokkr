@@ -220,3 +220,22 @@
        Division between two values of unknown types, found out at runtime.
        Pops top two elements from the stacks and finds their
        quotient, pushing the result.
+
+
+-   :byte: 254
+    :name: SET_LINE
+    :operands: 1
+    :operand_desc: ['Current line number, given directly as `u16`. Operand value is line number.']
+    :desc: >-
+       Sets the current line number that the subsequent
+       bytecode instructions correspond to in the code
+       source file.
+
+-   :byte: 255
+    :name: NOP
+    :operands: 0
+    :desc: >-
+       <u>N</u>o <u>Op</u>eration. Does nothing.
+       You shouldn't see this in the final compiled
+       bytecode, it may only exists temporarily while the
+       bytecode is being produced.

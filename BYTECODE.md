@@ -37,3 +37,5 @@ Sizes are as follows:
 | `00110110` | `I_DIV` |  | Division between two pointer-sized signed integers. Pops top two elements from the stacks and finds their quotient, pushing the result. |
 | `00110111` | `R_DIV` |  | Division between two 64-bit floating-point numbers. Pops top two elements from the stacks and finds their quotient, pushing the result. |
 | `00111000` | `U_DIV` |  | Division between two values of unknown types, found out at runtime. Pops top two elements from the stacks and finds their quotient, pushing the result. |
+| `11111110` | `SET_LINE` | 1 — Current line number, given directly as `u16`. Operand value is line number. | Sets the current line number that the subsequent bytecode instructions correspond to in the code source file. |
+| `11111111` | `NOP` |  | <u>N</u>o <u>Op</u>eration. Does nothing. You shouldn't see this in the final compiled bytecode, it may only exists temporarily while the bytecode is being produced. |
