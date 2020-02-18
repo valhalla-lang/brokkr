@@ -1,7 +1,7 @@
 [package]
 name = "brokkr"
 description = "Virtual Machine / Bytecode Interpreter for set-theoretic languages."
-homepage = "https://knutsen.co"
+homepage      = "https://github.com/Demonstrandum/brokkr"
 repository    = "https://github.com/Demonstrandum/brokkr"
 documentation = "https://github.com/Demonstrandum/brokkr"
 keywords = ["set-theory", "assembler", "bytecode", "interpreter", "virtual-machine"]
@@ -16,6 +16,13 @@ edition = "2018"
 name = "brokkr"
 path = "src/lib.rs"
 
+
+[[bin]]
+name = "brokkr"
+path = "src/bin.rs"
+
 [dependencies]
 lazy_static = "1.3.0"
+num-traits = "0.2"
+num-derive = "0.3"
 

@@ -6,6 +6,15 @@
 #        ...
 
 -   :byte: 0
+    :name: EOI
+    :operands: 0
+    :desc: >-
+        End Of Instructions! This is not a real opcode and
+        only appears at the end of the instruction byte-stream
+        to signal that there are no more instructions to be read.
+        Essentially it's just a null-terminator.
+
+-   :byte: 200
     :name: HALT
     :operands: 1
     :operand_desc: ['Exit Code (Integer)']
@@ -86,6 +95,19 @@
     :desc: >-
         Swaps the position of the top two stack elements.
 
+-   :byte: 9
+    :name: CALL_1
+    :operands: 0
+    :desc: >-
+        Calls function at top of stack with argument at second
+        from top of stack.
+
+-   :byte: 10
+    :name: CHECK_TYPE
+    :operands: 0
+    :desc: >-
+       Checks if second from top of stack value is a member
+       of the set/type loaded from the top of the stack.
 
 -   :byte: 40
     :name: N_ADD

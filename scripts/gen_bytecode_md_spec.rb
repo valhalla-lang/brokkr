@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'yaml'
 
 def wrap(arr)
@@ -11,7 +13,7 @@ rows = Array.new
 
 LIST.each do |row|
   fields = Array.new
-  fields << "`#{row[:byte].to_s(2).rjust(8, '0')}`"
+  fields << "`0x#{row[:byte].to_s(16).rjust(2, '0')}`"
   fields << "`#{row[:name].upcase}`"
 
   operand_desc = Array.new
@@ -21,7 +23,7 @@ LIST.each do |row|
 
   fields << operand_desc.join('<br />')
   fields << row[:desc]
-  
+
   rows << (wrap fields)
 end
 
