@@ -13,13 +13,15 @@ rows = Array.new
 
 LIST.each do |row|
   fields = Array.new
-  fields << "`0x#{row[:byte].to_s(16).rjust(2, '0')}`"
+  fields << "`0x#{row[:byte].to_s(16).rjust(2, '0')}`<br />(#{row[:byte]})"
   fields << "`#{row[:name].upcase}`"
 
   operand_desc = Array.new
   row[:operands].times do |i|
     operand_desc << "#{i + 1} — #{row[:operand_desc][i]}"
   end
+
+  operand_desc = ['<center>N/A</center>'] if operand_desc.empty?
 
   fields << operand_desc.join('<br />')
   fields << row[:desc]
@@ -36,7 +38,7 @@ Sizes are as follows:
 
 | Type     | Size                     |
 |----------|--------------------------|
-| Operator | 1 Byte  (8  Bits, `u8`)  |
+| Operator | 1 Byte  (8  Bits,  `u8`)  |
 | Operand  | 2 Bytes (16 Bits, `u16`) |
 
 EOF

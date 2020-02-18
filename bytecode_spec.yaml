@@ -64,16 +64,15 @@
        Pops the top value and stores it in the local symbol table
        at a given index.
 
--   :byte: 6
-    :name: STORE_SUPER
-    :operands: 1
-    :operand_desc: ['Name of super-scoped variable (String)']
-    :desc: >-
-       When a variable is out of the local scope, pop it
-       off of the stack to store it in the super-scope
-       searching up the frames for its name, (much slower
-       than `STORE_LOCAL`).
-
+# -   :byte: 6
+#     :name: STORE_SUPER
+#     :operands: 1
+#     :operand_desc: ['Name of super-scoped variable (String)']
+#     :desc: >-
+#        When a variable is out of the local scope, pop it
+#        off of the stack to store it in the super-scope
+#        searching up the frames for its name, (much slower
+#        than `STORE_LOCAL`).
 
 -   :byte: 6
     :name: DUP
@@ -108,6 +107,40 @@
     :desc: >-
        Checks if second from top of stack value is a member
        of the set/type loaded from the top of the stack.
+
+-   :byte: 11
+    :name: CAST
+    :operands: 2
+    :operand_desc: [
+        'One byte, specifies the origin type.',
+        'One byte, specifies the destination type.'
+    ]
+    :desc: >-
+       Changes the top-of-stack value to have a different
+       primitive type.
+
+-   :byte: 12
+    :name: MAKE_FUNC
+    :operands: 0
+    :desc: >-
+       Takes the top-of-stack value, referencing a code
+       block, and makes it a function, with all the special
+       properties that come with that.
+
+-   :byte: 13
+    :name: YIELD
+    :operands: 0
+    :desc: >-
+       Causes the current function to yield a value
+       (i.e. return).
+
+-   :byte: 14
+    :name: RAW_PRINT
+    :operands: 0
+    :desc: >-
+       Native debug print of `TOS`.
+       Should not be used unless working on the
+       compiler.
 
 -   :byte: 40
     :name: N_ADD
