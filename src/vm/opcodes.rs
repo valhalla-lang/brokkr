@@ -2,7 +2,7 @@ use num_derive::FromPrimitive;
 
 #[repr(usize)]
 #[allow(non_camel_case_types)]
-#[derive(FromPrimitive, Clone, Copy)]
+#[derive(FromPrimitive, Clone, Copy, PartialEq, Eq)]
 pub enum Operators {
     EOI         = 0,   // TAKES 0 OPERAND(s) (Not a proper operator)
 

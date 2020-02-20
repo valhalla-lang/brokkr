@@ -8,11 +8,12 @@
  * The immediate next step from here is to pass the frames to the VM
  * and have it follow the instructions byte-for-byte.
  *
-!*/
+ */
 use std::collections::HashSet;
-use crate::VoidPtr;
-use super::instructions;
+use super::address::Address;
+use super::opcodes;
 use super::frame;
+use super::frame::Instruction;
 
 use num_traits::FromPrimitive;
 
@@ -58,7 +59,7 @@ mod eat {
         (i + size, padded)
     }
 
-    fn constant(mut i : usize, bytes : &ByteSlice) -> (usize, VoidPtr) {
+    fn constant(mut i : usize, bytes : &ByteSlice) -> (usize, Address) {
         let const_type = bytes[i];
         i += 1;
         return match const_type {
@@ -66,7 +67,7 @@ mod eat {
             0x01..=0x03 => {
                 let (i, bytes_slice) = consume_sized(i, bytes);
                 let bytes_slice = fix_slice_size::<u8, POINTER_BYTES>(&bytes_slice[..POINTER_BYTES]);
-                let value = usize::from_be_bytes(*bytes_slice) as VoidPtr;
+                let value = Address(usize::from_be_bytes(*bytes_slice));
                 (i, value)
             },
             // Parse Strings
@@ -75,14 +76,11 @@ mod eat {
                 let bytes_slice = fix_slice_size::<u8, POINTER_BYTES>(&bytes_slice[..POINTER_BYTES]);
                 let str_len = usize::from_be_bytes(*bytes_slice);
 
-                // Don't deallocate the string by wrapping it in a `Box`, then
-                //   casting it to a raw pointer and then to *void.
-                let string = Box::new(std::str::from_utf8(&bytes[i..i + str_len])
+                // Store string on heap, `Address` holds a raw pointer to it.
+                let string = Address::new(std::str::from_utf8(&bytes[i..i + str_len])
                     .expect("Invalid utf8 bytes in string. Bad bytecode."));
-                let string = Box::into_raw(string);  // Shadowed...
-                // String is then accessed by doing:
-                //   `unsafe { &*(frame.constants[2] as *const &str) }`
-                (i + str_len, string as *const _ as VoidPtr)
+
+                (i + str_len, string)
             }
             _ => panic!(format!(
                 "Type-specifier-prefix ({:x}) is not recognised.",
@@ -90,13 +88,13 @@ mod eat {
         }
     }
 
-    pub fn constants(mut i : usize, bytes : &ByteSlice) -> (usize, Vec<VoidPtr>) {
+    pub fn constants(mut i : usize, bytes : &ByteSlice) -> (usize, Vec<Address>) {
         // Constant blocks are expected to start with `0x11`.
         #[cfg(debug_assertions)]
         assert_eq!(bytes[i], 0x11);
         i += 1;
 
-        let mut consts : Vec<VoidPtr> = vec![];
+        let mut consts : Vec<Address> = vec![];
         while bytes[i] != 0x00 {
             let (j, void) = constant(i, bytes);
             i = j;
@@ -122,15 +120,15 @@ mod eat {
         (i + 1, set)
     }
 
-    pub fn instructions(mut i : usize, bytes : &ByteSlice) -> (usize, Vec<usize>) {
-        let mut instrs : Vec<usize> = vec![];
+    pub fn instructions(mut i : usize, bytes : &ByteSlice) -> (usize, Vec<Instruction>) {
+        let mut instrs : Vec<Instruction> = vec![];
         #[cfg(debug_assertions)]
         assert_eq!(bytes[i], 0x13);
         i += 1;
 
         while bytes[i] != 0x00 {
-            instrs.push(bytes[i] as usize);
-            let maybe_instr : Option<instructions::Operators> =
+            instrs.push(Instruction::from(bytes[i]));
+            let maybe_instr : Option<opcodes::Operators> =
                 FromPrimitive::from_usize(bytes[i] as usize);
             if let Some(instr) = maybe_instr {
                 // If the opcode takes an operand (u16), consume this too.
@@ -138,7 +136,7 @@ mod eat {
                     i += 2;
                     let operand = (u16::from(bytes[i - 1]) << 8)
                         + u16::from(bytes[i]);
-                    instrs.push(operand as usize);
+                    instrs.push(Instruction::from(operand));
                 }
             }
             i += 1;
@@ -182,7 +180,7 @@ mod eat {
 pub fn parse_blob(bytes : &ByteSlice) -> frame::Frame {
     let mut i : usize = 0;
     // Parse compiler version number.
-    let version = bytes[0..2].as_ref();
+    let _version = bytes[0..2].as_ref();
     i += 3;
 
     // Parse primary/root code block.
@@ -195,8 +193,13 @@ pub fn parse_blob(bytes : &ByteSlice) -> frame::Frame {
     // it in Rust, all you have to do is:
     // ```
     //   let string : &str = unsafe {
-    //       *(stack_frame.constants[2] as *const &str)
+    //       *(stack_frame.constants[2].0 as *const &str)
     //   };
+    //   println!("str: {}", string);
+    // ```
+    // Or even better:
+    // ```
+    //   let string : &str = unsafe { stack_frame.constants[2].deref() };
     //   println!("str: {}", string);
     // ```
 

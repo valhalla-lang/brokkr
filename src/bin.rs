@@ -20,7 +20,7 @@ pub fn main() -> Result<(), std::io::Error> {
         f.read_to_end(&mut buffer)
             .expect("Could not dump file contents to bytesteam.");
 
-        let frame = unmarshal::parse_blob(&buffer);
+        let _frame = unmarshal::parse_blob(&buffer);
     }
 
     Ok(())
