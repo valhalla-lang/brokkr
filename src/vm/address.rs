@@ -1,4 +1,5 @@
 use std::fmt;
+use num_traits::FromPrimitive;
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Address(pub usize);
@@ -12,7 +13,7 @@ pub struct Address(pub usize);
 #[allow(clippy::inline_always)]
 impl Address {
     #[inline(always)]
-    pub fn new<T : Copy>(structure : T) -> Self {
+    pub fn new<T>(structure : T) -> Self {
         Self(Box::into_raw(Box::new(structure)) as usize)
     }
 
@@ -24,7 +25,23 @@ impl Address {
         *(self.0 as *mut T)
     }
 
-    // For temporary use.
+    /// # Safety
+    /// This function dereferences a raw pointer.
+    #[inline(always)]
+    #[must_use]
+    pub unsafe fn reference<T>(self) -> &'static T {
+        &*(self.0 as *mut T)
+    }
+
+    /// Get value of self.0, if it does not represent a pointer,
+    /// and instead is a value such as f64, stored as a usize.
+    #[inline(always)]
+    #[must_use]
+    pub fn value<T>(self) -> T {
+        unsafe { std::mem::transmute_copy(&self.0) }
+    }
+
+    /// Null-pointer, for temporary use.
     #[inline(always)]
     #[must_use]
     pub fn null() -> Self { Address(0) }

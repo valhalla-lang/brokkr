@@ -59,6 +59,12 @@ mod eat {
         (i + size, padded)
     }
 
+    #[derive(Debug)]
+    pub struct Egg {
+        a : f64,
+        b : String
+    }
+
     fn constant(mut i : usize, bytes : &ByteSlice) -> (usize, Address) {
         let const_type = bytes[i];
         i += 1;
@@ -79,7 +85,6 @@ mod eat {
                 // Store string on heap, `Address` holds a raw pointer to it.
                 let string = Address::new(std::str::from_utf8(&bytes[i..i + str_len])
                     .expect("Invalid utf8 bytes in string. Bad bytecode."));
-
                 (i + str_len, string)
             }
             _ => panic!(format!(
