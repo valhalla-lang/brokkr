@@ -147,6 +147,7 @@ mod eat {
             i += 1;
         }
 
+        instrs.push(Instruction(0));
         (i, instrs)
     }
 
@@ -167,16 +168,10 @@ mod eat {
         let (i, instructions) = eat::instructions(i, bytes);
 
         // Construct call-frame.
-        let stack_frame = frame::Frame {
-            source_file: filename,
-            name: module,
-            constants,
-            locals,
-            instructions,
+        let stack_frame = frame::Frame::new(
+            filename, module, constants,
+            locals, instructions, stack_depth);
 
-            stack_depth,
-            evaluations: Vec::with_capacity(stack_depth as usize)
-        };
         return (i, stack_frame);
     }
 }
@@ -191,7 +186,7 @@ pub fn parse_blob(bytes : &ByteSlice) -> frame::Frame {
     // Parse primary/root code block.
     let (_, stack_frame) = eat::block(i, bytes);
 
-    #[cfg(debug_assertions)]
+    #[cfg(feature="debug")]
     println!("{:#?}", stack_frame);
 
     // If `stack_frame.constants[2]` is a pointer to a string, then, to use

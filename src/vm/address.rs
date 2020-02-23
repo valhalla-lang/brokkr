@@ -1,15 +1,10 @@
 use std::fmt;
-use num_traits::FromPrimitive;
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Address(pub usize);
 
-/// # Address to Generic Types
-///   The type of a new `Address` is holding must always
-/// implement the `Copy` trait.
-///   When making an `Address` for a struct (call it `Foo`),
-/// please always make sure you're giving it a reference (`&Foo`),
-/// since references implement the `Copy` trait.
+/// # Address to any type
+/// Pass only objects with size known at compile time to `new`.
 #[allow(clippy::inline_always)]
 impl Address {
     #[inline(always)]
@@ -35,10 +30,20 @@ impl Address {
 
     /// Get value of self.0, if it does not represent a pointer,
     /// and instead is a value such as f64, stored as a usize.
+    /// # Safety
+    /// This function transmutes types.
     #[inline(always)]
     #[must_use]
-    pub fn value<T>(self) -> T {
-        unsafe { std::mem::transmute_copy(&self.0) }
+    pub unsafe fn value<T>(self) -> T {
+        std::mem::transmute_copy(&self.0)
+    }
+
+    /// # Safety
+    /// This function transmutes types.
+    #[inline(always)]
+    #[must_use]
+    pub unsafe fn from_value<T>(value : &T) -> Self {
+        std::mem::transmute_copy(value)
     }
 
     /// Null-pointer, for temporary use.

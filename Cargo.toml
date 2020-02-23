@@ -6,16 +6,17 @@ repository    = "https://github.com/Demonstrandum/brokkr"
 documentation = "https://github.com/Demonstrandum/brokkr"
 keywords = ["set-theory", "assembler", "bytecode", "interpreter", "virtual-machine"]
 license = "GPL-3.0"
-license-file = "LICENSE.md"
 readme = "README.md"
 version = "0.1.0"
 authors = ["Demonstrandum <moi@knutsen.co>"]
 edition = "2018"
 
+[features]
+debug = []  # No deps.
+
 [lib]
 name = "brokkr"
 path = "src/lib.rs"
-
 
 [[bin]]
 name = "brokkr"

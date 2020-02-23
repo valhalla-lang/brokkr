@@ -17,19 +17,53 @@ pub struct Frame {
     /// Vector of all constants used in the _function_.
     pub constants : Vec<Address>,
     /// Set of names for local variables.
-    pub locals : HashSet<String>,
+    pub local_names : HashSet<String>,
+    /// Vector of all local variables.
+    pub locals : Vec<Address>,
     /// Instructions for execution of the _function_.
     pub instructions : Vec<Instruction>,
 
     /// Maximum depth for the evaluation-stack.
     pub stack_depth : u16,
+    /// Program Counter.
+    pub  pc : usize,
+    /// Current line.
+    pub line : usize,
     /// Evaluation-stack (since it is a stack based VM).
     pub evaluations : Vec<Address>
+}
+
+impl Frame {
+    #[must_use]
+    pub fn new(filename : String, module : String,
+               constants : Vec<Address>, local_names : HashSet<String>,
+               instructions : Vec<Instruction>, stack_depth : u16) -> Self {
+        Self {
+            source_file: filename,
+            name: module,
+            constants,
+            locals: vec![Address::null(); local_names.len()],
+            local_names,
+            instructions,
+
+            stack_depth,
+            pc: 0,
+            line: 1,
+            evaluations: Vec::with_capacity(stack_depth as usize)
+        }
+    }
 }
 
 impl<N> From<N> for Instruction where N: Unsigned + NumCast {
     fn from(other : N) -> Self {
         Instruction(num_traits::cast::<N, usize>(other).unwrap())
+    }
+}
+
+impl From<Instruction> for usize {
+    #[inline]
+    fn from(instr : Instruction) -> Self {
+        instr.0
     }
 }
 

@@ -19,7 +19,7 @@ pub enum Operators {
     CAST        = 11,  // TAKES 2 OPERAND(s) (2 operands, 1 out of 2 bytes for each)
     MAKE_FUNC   = 12,  // TAKES 0 OPERAND(s)
     YIELD       = 13,  // TAKES 0 OPERAND(s)
-    RAW_PRINT   = 14,  // TAKES 0 OPERAND(s)
+    RAW_PRINT   = 14,  // TAKES 1 OPERAND(s)
 
     N_ADD       = 40,  // TAKES 0 OPERAND(s)
     I_ADD       = 41,  // TAKES 0 OPERAND(s)
@@ -57,6 +57,7 @@ impl Operators {
             | Self::STORE_LOCAL
             | Self::DUP_N
             | Self::CAST
+            | Self::RAW_PRINT
             | Self::SET_LINE => true,
             _ => false
         }

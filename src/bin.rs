@@ -1,8 +1,10 @@
 use brokkr::vm::unmarshal;
+use brokkr::vm::evaluation;
 
 use std::env;
 use std::io::prelude::*;
 use std::{fs::File, path::Path};
+
 
 pub fn main() -> Result<(), std::io::Error> {
     let mut args : Vec<String> = env::args().collect();
@@ -11,7 +13,7 @@ pub fn main() -> Result<(), std::io::Error> {
     let files = args.iter().filter(|arg| Path::new(arg).exists());
 
     for file in files {
-        #[cfg(debug_assertions)]
+        #[cfg(feature="debug")]
         println!("Reading file {}...", file);
 
         let mut f = File::open(file)
@@ -20,7 +22,11 @@ pub fn main() -> Result<(), std::io::Error> {
         f.read_to_end(&mut buffer)
             .expect("Could not dump file contents to bytesteam.");
 
-        let _frame = unmarshal::parse_blob(&buffer);
+        let frame = unmarshal::parse_blob(&buffer);
+
+        let mut env = evaluation::Environment::new();
+        env.entry(frame);
+        env.execute();
     }
 
     Ok(())
